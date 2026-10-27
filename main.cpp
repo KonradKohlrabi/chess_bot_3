@@ -99,80 +99,87 @@ vector<array<int, 5>> getAllMoves(char board[8][8], bool isWhitesTurn)
             {
                 if (board[i + 1][j] == ' ')
                 {
-                    moves.push_back(array<int, 5>{i, j, i + 1, j, 0}); // letzte Zahl zusatzcode 0 = kein zusatz, 1 = dame, 2 = turm, 3 = springer, 4 = läufer, 5 = kurze rochade, 6 = lange rochade
+
                     if (i + 2 <= 7 && i == 1 && board[i + 2][j] == ' ')
                     {
                         moves.push_back(array<int, 5>{i, j, i + 2, j, 0});
                     }
-                    else if (i == 6 && board[7][j] == ' ')
+                    if (i == 6 && board[7][j] == ' ')
                     {
-                        moves.push_back(array<int, 5>{i, j, i + 1, j, 4});
-                        moves.push_back(array<int, 5>{i, j, i + 1, j, 3});
-                        moves.push_back(array<int, 5>{i, j, i + 1, j, 2});
                         moves.push_back(array<int, 5>{i, j, i + 1, j, 1});
+                        moves.push_back(array<int, 5>{i, j, i + 1, j, 2});
+                        moves.push_back(array<int, 5>{i, j, i + 1, j, 3});
+                        moves.push_back(array<int, 5>{i, j, i + 1, j, 4});
+                    }
+                    else
+                    {
+                        moves.push_back(array<int, 5>{i, j, i + 1, j, 0}); // letzte Zahl zusatzcode 0 = kein zusatz, 1 = dame, 2 = turm, 3 = springer, 4 = läufer, 5 = kurze rochade, 6 = lange rochade
                     }
                 }
-                if (isupper(board[i + 1][j + 1]) && i != 6)
+                if (j + 1 <= 7 && isupper(board[i + 1][j + 1]) && i != 6)
                 {
                     moves.push_back(array<int, 5>{i, j, i + 1, j + 1, 0});
                 }
-                if (isupper(board[i + 1][j - 1]) && i != 6)
+                if (j - 1 >= 0 && isupper(board[i + 1][j - 1]) && i != 6)
                 {
                     moves.push_back(array<int, 5>{i, j, i + 1, j - 1, 0});
                 }
                 if (i == 6 && j + 1 <= 7 && board[7][j + 1] != ' ' && isupper(board[7][j + 1]))
                 {
-                    moves.push_back(array<int, 5>{i, j, i + 1, j + 1, 4});
-                    moves.push_back(array<int, 5>{i, j, i + 1, j + 1, 3});
-                    moves.push_back(array<int, 5>{i, j, i + 1, j + 1, 2});
                     moves.push_back(array<int, 5>{i, j, i + 1, j + 1, 1});
+                    moves.push_back(array<int, 5>{i, j, i + 1, j + 1, 2});
+                    moves.push_back(array<int, 5>{i, j, i + 1, j + 1, 3});
+                    moves.push_back(array<int, 5>{i, j, i + 1, j + 1, 4});
                 }
                 if (i == 6 && j - 1 >= 0 && board[7][j - 1] != ' ' && isupper(board[7][j - 1]))
                 {
-                    moves.push_back(array<int, 5>{i, j, i + 1, j - 1, 4});
-                    moves.push_back(array<int, 5>{i, j, i + 1, j - 1, 3});
-                    moves.push_back(array<int, 5>{i, j, i + 1, j - 1, 2});
                     moves.push_back(array<int, 5>{i, j, i + 1, j - 1, 1});
+                    moves.push_back(array<int, 5>{i, j, i + 1, j - 1, 2});
+                    moves.push_back(array<int, 5>{i, j, i + 1, j - 1, 3});
+                    moves.push_back(array<int, 5>{i, j, i + 1, j - 1, 4});
                 }
             }
             else if (piece == 'P' && i - 1 >= 0)
             {
                 if (board[i - 1][j] == ' ')
                 {
-                    moves.push_back(array<int, 5>{i, j, i - 1, j, 0});
                     if (i - 2 >= 0 && i == 6 && board[i - 2][j] == ' ')
                     {
                         moves.push_back(array<int, 5>{i, j, i - 2, j, 0});
                     }
-                    else if (i == 1 && board[0][j] == ' ')
+                    if (i == 1 && board[0][j] == ' ')
                     {
-                        moves.push_back(array<int, 5>{i, j, i - 1, j, 4});
-                        moves.push_back(array<int, 5>{i, j, i - 1, j, 3});
-                        moves.push_back(array<int, 5>{i, j, i - 1, j, 2});
                         moves.push_back(array<int, 5>{i, j, i - 1, j, 1});
+                        moves.push_back(array<int, 5>{i, j, i - 1, j, 2});
+                        moves.push_back(array<int, 5>{i, j, i - 1, j, 3});
+                        moves.push_back(array<int, 5>{i, j, i - 1, j, 4});
+                    }
+                    else
+                    {
+                        moves.push_back(array<int, 5>{i, j, i - 1, j, 0});
                     }
                 }
-                if (islower(board[i - 1][j + 1]) && i != 1)
+                if (j + 1 <= 7 && islower(board[i - 1][j + 1]) && i != 1)
                 {
                     moves.push_back(array<int, 5>{i, j, i - 1, j + 1, 0});
                 }
-                if (islower(board[i - 1][j - 1]) && i != 1)
+                if (j - 1 >= 0 && islower(board[i - 1][j - 1]) && i != 1)
                 {
                     moves.push_back(array<int, 5>{i, j, i - 1, j - 1, 0});
                 }
                 if (i == 1 && j + 1 <= 7 && board[0][j + 1] != ' ' && islower(board[0][j + 1]))
                 {
-                    moves.push_back(array<int, 5>{i, j, i - 1, j + 1, 4});
-                    moves.push_back(array<int, 5>{i, j, i - 1, j + 1, 3});
-                    moves.push_back(array<int, 5>{i, j, i - 1, j + 1, 2});
                     moves.push_back(array<int, 5>{i, j, i - 1, j + 1, 1});
+                    moves.push_back(array<int, 5>{i, j, i - 1, j + 1, 2});
+                    moves.push_back(array<int, 5>{i, j, i - 1, j + 1, 3});
+                    moves.push_back(array<int, 5>{i, j, i - 1, j + 1, 4});
                 }
                 if (i == 1 && j - 1 >= 0 && board[0][j - 1] != ' ' && islower(board[0][j - 1]))
                 {
-                    moves.push_back(array<int, 5>{i, j, i - 1, j - 1, 4});
-                    moves.push_back(array<int, 5>{i, j, i - 1, j - 1, 3});
-                    moves.push_back(array<int, 5>{i, j, i - 1, j - 1, 2});
                     moves.push_back(array<int, 5>{i, j, i - 1, j - 1, 1});
+                    moves.push_back(array<int, 5>{i, j, i - 1, j - 1, 2});
+                    moves.push_back(array<int, 5>{i, j, i - 1, j - 1, 3});
+                    moves.push_back(array<int, 5>{i, j, i - 1, j - 1, 4});
                 }
             }
             else if (piece == 'n' || piece == 'N')
@@ -965,6 +972,7 @@ int main()
             cout << "Schachmatt, weiss ist der Sieger!";
             running = false;
         }
+        /*
         else if (moved) // Bot
         {
             vector<array<int, 5>> allowedMoves = getAllowedMoves(board, isWhitesTurn);
@@ -988,7 +996,7 @@ int main()
         {
             cout << "Schachmatt, weiss ist der Sieger!";
             running = false;
-        }
+        }*/
     }
     CloseWindow();
     return 0;

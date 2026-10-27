@@ -1,0 +1,18 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Chess",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/chess.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/raylib/w64devkit/bin/gdb.exe",
+            "preLaunchTask": "Build",
+            "externalConsole": true
+        }
+    ]
+}

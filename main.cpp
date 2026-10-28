@@ -844,6 +844,7 @@ int main()
 
     Color brownTile = {137, 81, 42, 255};
     Color clickPointColor = GREEN;
+    Color lastMoveColor = {0, 220, 0, 150};
 
     vector<array<int, 2>> clickPoints = {};
 
@@ -852,6 +853,7 @@ int main()
     int selectedPieceY;
 
     bool isWhitesTurn = true;
+    array<int, 5> lastMove;
 
     for (int i = 0; i < 12; i++)
     {
@@ -893,6 +895,7 @@ int main()
                             if (move[0] == selectedPieceX && move[1] == selectedPieceY && move[3] == x && move[2] == y)
                             {
                                 movePiece(move, board);
+                                lastMove = move;
                             }
                         }
                         // movePiece({selectedPieceX, selectedPieceY, clickPoints[i][1], clickPoints[i][0], 0}, board);
@@ -927,6 +930,10 @@ int main()
                 if ((i + j) % 2 == 1)
                 {
                     DrawRectangle(j * 100, i * 100, 100, 100, brownTile);
+                }
+                if (lastMove[0] == 7 - i && lastMove[1] == j || lastMove[2] == 7 - i && lastMove[3] == j)
+                {
+                    DrawRectangle(j * 100, i * 100, 100, 100, lastMoveColor);
                 }
             }
         }
@@ -972,12 +979,12 @@ int main()
             cout << "Schachmatt, weiss ist der Sieger!";
             running = false;
         }
-        /*
         else if (moved) // Bot
         {
             vector<array<int, 5>> allowedMoves = getAllowedMoves(board, isWhitesTurn);
             int bestMove = findBestMove(board, isWhitesTurn);
             movePiece(allowedMoves[bestMove], board);
+            lastMove = allowedMoves[bestMove];
             isWhitesTurn = !isWhitesTurn;
         }
 
@@ -996,7 +1003,7 @@ int main()
         {
             cout << "Schachmatt, weiss ist der Sieger!";
             running = false;
-        }*/
+        }
     }
     CloseWindow();
     return 0;

@@ -6,6 +6,8 @@
             "type": "process",
             "command": "C:\\raylib\\w64devkit\\bin\\g++.exe",
             "args": [
+                "-O2",
+                "-std=c++17",
                 "main.cpp",
                 "-o",
                 "chess.exe",

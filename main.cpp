@@ -95,6 +95,10 @@ vector<array<int, 5>> getAllMoves(char board[8][8], bool isWhitesTurn)
         {
             char piece = board[i][j];
 
+            if (piece == ' ' || (bool)islower(piece) != isWhitesTurn) {
+                continue;
+            }
+
             if (piece == 'p' && i + 1 <= 7)
             {
                 if (board[i + 1][j] == ' ')
@@ -554,14 +558,6 @@ vector<array<int, 5>> getAllMoves(char board[8][8], bool isWhitesTurn)
                         x--;
                         y--;
                     }
-                }
-            }
-
-            for (int i = (int)moves.size() - 1; i >= 0; i--)
-            {
-                if ((islower(board[moves[i][0]][moves[i][1]]) && !isWhitesTurn) || (isupper(board[moves[i][0]][moves[i][1]]) && isWhitesTurn))
-                {
-                    moves.erase(moves.begin() + i);
                 }
             }
         }

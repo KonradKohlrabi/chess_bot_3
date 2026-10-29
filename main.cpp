@@ -95,7 +95,8 @@ vector<array<int, 5>> getAllMoves(char board[8][8], bool isWhitesTurn)
         {
             char piece = board[i][j];
 
-            if (piece == ' ' || (bool)islower(piece) != isWhitesTurn) {
+            if (piece == ' ' || (bool)islower(piece) != isWhitesTurn)
+            {
                 continue;
             }
 
@@ -228,7 +229,7 @@ vector<array<int, 5>> getAllMoves(char board[8][8], bool isWhitesTurn)
                     {
                         moves.push_back(array<int, 5>{i, j, 0, 6, 5});
                     }
-                    if (board[0][0] == 'r' && board[7][1] == ' ' && board[7][2] == ' ' && board[7][3] == ' ')
+                    if (board[0][0] == 'r' && board[0][1] == ' ' && board[0][2] == ' ' && board[0][3] == ' ')
                     {
                         moves.push_back(array<int, 5>{i, j, 0, 2, 6});
                     }
@@ -604,26 +605,6 @@ vector<array<int, 5>> getAllowedMoves(char board[8][8], bool isWhitesTurn)
     return moves;
 }
 
-bool isAllowedMove(array<int, 5> move, char board[8][8], bool isWhitesTurn)
-{
-    bool isAllowedMove = false;
-    vector<array<int, 5>> allowedMoves = getAllMoves(board, isWhitesTurn);
-    for (int i = 0; i < allowedMoves.size(); i++)
-    {
-        if (move == allowedMoves[i])
-        {
-            isAllowedMove = true;
-        }
-        cout << allowedMoves[i][0];
-        cout << allowedMoves[i][1];
-        cout << allowedMoves[i][2];
-        cout << allowedMoves[i][3];
-        cout << allowedMoves[i][4];
-        cout << endl;
-    }
-    return isAllowedMove;
-}
-
 int evaluateForWhite(char board[8][8])
 {
     // Weights
@@ -756,6 +737,136 @@ int minimax(char board[8][8], int depth, bool isWhitesTurn, int alpha, int beta)
 
         return minEval;
     }
+}
+
+bool isAttacked(char board[8][8], bool isWhitesTurn, int attackedI, int attackedJ)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            char piece = board[i][j];
+
+            if (piece == ' ' || (bool)islower(piece) != isWhitesTurn)
+            {
+                continue;
+            }
+            else if ((piece == 'p') && (i + 1 == attackedI && (j + 1 == attackedJ || j - 1 == attackedJ)))
+            {
+                return true;
+            }
+            else if ((piece == 'P') && (i - 1 == attackedI && (j + 1 == attackedJ || j - 1 == attackedJ))) {
+                return true;
+            }
+            else if ((piece == 'n' || piece == 'N'))
+            {
+                int possibleKnightSquares[8][2] = {{i + 2, j + 1}, {i + 2, j - 1}, {i - 2, j + 1}, {i - 2, j - 1}, {i + 1, j - 2}, {i - 1, j + 2}, {i + 1, j + 2}, {i - 1, j - 2}};
+                for (int k = 0; k < 8; k++)
+                {
+                    if (possibleKnightSquares[k][0] == attackedI && possibleKnightSquares[k][1] == attackedJ)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if ((piece == 'k' || piece == 'K') && (((i == attackedI + 1 || i == attackedI - 1) && (j == attackedJ + 1 || j == attackedJ - 1)) || ((i == attackedI + 1 || i == attackedI - 1) && (j == attackedJ)) || ((i == attackedI) && (j == attackedJ + 1 || j == attackedJ - 1))))
+            {
+                return true;
+            }
+            else if (piece == 'r' || piece == 'R')
+            {
+                int direction[2];
+                int x = i;
+                int y = j;
+                if (i == attackedI)
+                {
+                    direction[0] = 0;
+                    direction[1] = j < attackedJ ? 1 : -1;
+                }
+                else if (j == attackedJ)
+                {
+                    direction[0] = i < attackedI ? 1 : -1;
+                    direction[1] = 0;
+                } else {
+                    continue;
+                }
+
+                do
+                {
+                    x += direction[0];
+                    y += direction[1];
+                    if (x == attackedI && y == attackedJ)
+                    {
+                        return true;
+                    }
+                } while (x <= 7 && x >= 0 && y <= 7 && y >= 0 && board[x][y] == ' ');
+            }
+            else if (piece == 'b' || piece == 'B')
+            {
+                int direction[2];
+                direction[0] = i < attackedI ? 1 : -1;
+                direction[1] = j < attackedJ ? 1 : -1;
+                int x = i;
+                int y = j;
+                do
+                {
+                    x += direction[0];
+                    y += direction[1];
+                    if (x == attackedI && y == attackedJ)
+                    {
+                        return true;
+                    }
+                } while (x <= 7 && x >= 0 && y <= 7 && y >= 0 && board[x][y] == ' ');
+            }
+            else if (piece == 'q' || piece == 'Q')
+            {
+                if (i != attackedI && j != attackedJ)
+                {
+                    int direction[2];
+                    direction[0] = i < attackedI ? 1 : -1;
+                    direction[1] = j < attackedJ ? 1 : -1;
+                    int x = i;
+                    int y = j;
+                    do
+                    {
+                        x += direction[0];
+                        y += direction[1];
+                        if (x == attackedI && y == attackedJ)
+                        {
+                            return true;
+                        }
+                    } while (x <= 7 && x >= 0 && y <= 7 && y >= 0 && board[x][y] == ' ');
+                }
+                else
+                {
+                    int direction[2];
+                    int x = i;
+                    int y = j;
+                    if (i == attackedI)
+                    {
+                        direction[0] = 0;
+                        direction[1] = j < attackedJ ? 1 : -1;
+                    }
+                    else if (j == attackedJ)
+                    {
+                        direction[0] = i < attackedI ? 1 : -1;
+                        direction[1] = 0;
+                    }
+
+                    do
+                    {
+                        x += direction[0];
+                        y += direction[1];
+                        if (x == attackedI && y == attackedJ)
+                        {
+                            return true;
+                        }
+                    } while (x <= 7 && x >= 0 && y <= 7 && y >= 0 && board[x][y] == ' ');
+                }
+            }
+        }
+    }
+    return false;
 }
 
 int findBestMove(char board[8][8], bool isWhitesTurn)
